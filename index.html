@@ -84,7 +84,7 @@
 
         #mainText {
             font-size: clamp(2rem, 8vw, 3.2rem);
-            color: #e73c7e;
+            color: #ec9dbb;
             margin-bottom: 28px;
             font-weight: bold;
             text-shadow: 3px 3px 6px rgba(255, 105, 180, 0.3);
@@ -233,7 +233,7 @@
         #clickCount {
             margin-top: 20px;
             font-size: 1.1em;
-            color: #e73c7e;
+            color: #ec9dbb;
             font-weight: bold;
             min-height: 30px;
         }
@@ -270,9 +270,7 @@
             }        
         }
         .footer{
-            align-items: flex-end;
-            align-self: right;
-            align-content: end;
+            color:#ec9dbb;
         }
     </style>
 </head>
@@ -292,7 +290,7 @@
         </div>
         <div id="clickCount"></div>
         <div id="emojiContainer" class="hidden"></div>
-        <footer class="footer"><small><u><i>-PRANAY</i></u></small></footer>
+        <footer class="footer" ><small><u><i>-PRANAY</i></u></small></footer>
     </div>
     
     <script>
@@ -457,6 +455,8 @@
         // Handle Yes button click
         yesBtn.addEventListener('click', function() {
             mainText.innerHTML = "Yay! You forgave me! 😍💖🥳";
+            mainText.style.fontSize = 'clamp(2.2rem, 7vw, 4rem)';
+            mainText.style.marginBottom = '20px';
             emojiContainer.innerHTML = "😊❤️💃🎉✨🥰💕🌟🎊💖🌹😘";
             emojiContainer.classList.remove('hidden');
             clickCount.innerHTML = "LOVE YOU YRR ! ❤️❤️❤️";
@@ -466,7 +466,9 @@
                 setTimeout(() => createHeart(), i * 150);
             }
 
-            document.body.style.background = 'linear-gradient(-45deg, #ff69b4, #ff1493, #ff69b4, #ffc0cb, #ff69b4, #ff1493)';
+            document.body.style.backgroundImage = "linear-gradient(rgba(20, 0, 10, 0.45), rgba(20, 0, 10, 0.45)), url('1.jpg')";
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundPosition = 'center';
         });
 
         // Keep the Yes button fixed in size while the No button keeps moving.

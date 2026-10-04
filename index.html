@@ -56,12 +56,12 @@
 
         .container {
             text-align: center;
-            padding: 50px 40px;
+            padding: 28px 18px;
             background: rgba(255, 255, 255, 0.98);
-            border-radius: 35px;
-            box-shadow: 0 25px 70px rgba(255, 105, 180, 0.5);
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(255, 105, 180, 0.45);
             max-width: 650px;
-            width: 90%;
+            width: min(92vw, 650px);
             animation: floatIn 1s ease-out;
             border: 3px solid rgba(255, 105, 180, 0.3);
             position: relative;
@@ -71,7 +71,7 @@
         @keyframes floatIn {
             from {
                 opacity: 0;
-                transform: translateY(-50px) scale(0.9);
+                transform: translateY(-30px) scale(0.96);
             }
             to {
                 opacity: 1;
@@ -80,19 +80,13 @@
         }
 
         #mainText {
-            font-size: 2.8em;
+            font-size: clamp(2rem, 8vw, 3.2rem);
             color: #e73c7e;
-            margin-bottom: 50px;
+            margin-bottom: 28px;
             font-weight: bold;
             text-shadow: 3px 3px 6px rgba(255, 105, 180, 0.3);
             animation: pulse 2s ease-in-out infinite;
-            line-height: 1.5;
-        }
-
-        @media (max-width: 768px) {
-            #mainText {
-                font-size: 2em;
-            }
+            line-height: 1.4;
         }
 
         @keyframes pulse {
@@ -102,27 +96,20 @@
 
         .buttons {
             display: flex;
-            gap: 25px;
+            flex-direction: column;
+            gap: 18px;
             justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-            min-height: 200px;
             align-items: center;
+            margin-bottom: 20px;
+            min-height: 170px;
             position: relative;
-            padding: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .buttons {
-                min-height: 350px;
-                flex-direction: column;
-            }
+            padding: 10px 0;
         }
 
         button {
             font-family: 'Comic Sans MS', 'Comic Sans', cursive;
-            font-size: 1.4em;
-            padding: 20px 40px;
+            font-size: 1.05rem;
+            padding: 16px 24px;
             border: none;
             border-radius: 50px;
             cursor: pointer;
@@ -130,13 +117,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             position: relative;
-        }
-
-        @media (max-width: 768px) {
-            button {
-                font-size: 1.2em;
-                padding: 16px 30px;
-            }
+            width: min(100%, 280px);
         }
 
         #yesBtn {
@@ -168,17 +149,10 @@
         }
 
         #emojiContainer {
-            font-size: 3.5em;
-            margin-top: 30px;
+            font-size: clamp(2.1rem, 7vw, 3.5rem);
+            margin-top: 24px;
             animation: bounce 1s ease infinite;
-            letter-spacing: 10px;
-        }
-
-        @media (max-width: 768px) {
-            #emojiContainer {
-                font-size: 2.5em;
-                letter-spacing: 5px;
-            }
+            letter-spacing: 6px;
         }
 
         @keyframes bounce {
@@ -188,6 +162,40 @@
 
         .hidden {
             display: none;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                overflow: hidden;
+            }
+
+            .container {
+                padding: 50px 40px;
+                border-radius: 35px;
+                width: 90%;
+            }
+
+            #mainText {
+                margin-bottom: 50px;
+            }
+
+            .buttons {
+                flex-direction: row;
+                gap: 25px;
+                flex-wrap: wrap;
+                min-height: 200px;
+                padding: 20px;
+            }
+
+            button {
+                width: auto;
+                font-size: 1.4em;
+                padding: 20px 40px;
+            }
+
+            #emojiContainer {
+                letter-spacing: 10px;
+            }
         }
 
         .heart {
@@ -336,6 +344,14 @@
         }
 
         function moveNoButton() {
+            if (window.innerWidth <= 768) {
+                noBtn.style.position = 'static';
+                noBtn.style.left = 'auto';
+                noBtn.style.top = 'auto';
+                noBtn.style.transform = 'scale(1)';
+                return;
+            }
+
             const rect = buttonsContainer.getBoundingClientRect();
             const btnRect = noBtn.getBoundingClientRect();
             const yesRect = yesBtn.getBoundingClientRect();
@@ -346,13 +362,11 @@
             let attempts = 0;
             const maxAttempts = 50;
             
-            // Keep trying until we find a position that doesn't overlap with Yes button
             do {
                 newX = Math.random() * maxX + 10;
                 newY = Math.random() * maxY + 10;
                 attempts++;
                 
-                // Calculate if the new position would overlap with Yes button
                 const noLeft = rect.left + newX;
                 const noRight = noLeft + btnRect.width;
                 const noTop = rect.top + newY;
@@ -363,10 +377,8 @@
                 const yesTop = yesRect.top;
                 const yesBottom = yesRect.bottom;
                 
-                // Add padding to keep buttons well separated
                 const padding = 30;
                 
-                // Check if positions overlap
                 const overlaps = !(
                     noRight + padding < yesLeft ||
                     noLeft - padding > yesRight ||
@@ -379,12 +391,12 @@
                 }
             } while (true);
             
+            noBtn.style.position = 'absolute';
             noBtn.style.left = newX + 'px';
             noBtn.style.top = newY + 'px';
             
             createSparkle(btnRect.left + btnRect.width/2, btnRect.top + btnRect.height/2);
             
-            // Shrink the button each time it moves
             noClickCount++;
             const newScale = Math.max(0.3, 1 - (noClickCount * 0.1));
             noBtn.style.transform = `scale(${newScale})`;
@@ -392,8 +404,18 @@
 
         function initNoButton() {
             const isMobileView = window.innerWidth <= 768;
-            noBtn.style.left = isMobileView ? '50%' : '70%';
-            noBtn.style.top = isMobileView ? '70%' : '50%';
+            if (isMobileView) {
+                noBtn.style.position = 'static';
+                noBtn.style.left = 'auto';
+                noBtn.style.top = 'auto';
+                noBtn.style.transform = 'scale(1)';
+                noClickCount = 0;
+                return;
+            }
+
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = '70%';
+            noBtn.style.top = '50%';
             noBtn.style.transform = 'translate(-50%, -50%) scale(1)';
             noClickCount = 0;
         }

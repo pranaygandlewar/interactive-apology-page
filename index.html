@@ -340,78 +340,64 @@
         }
 
         function moveNoButton() {
-            if (window.innerWidth <= 768) {
-                noBtn.style.position = 'static';
-                noBtn.style.left = 'auto';
-                noBtn.style.top = 'auto';
-                noBtn.style.transform = 'scale(1)';
-                return;
-            }
-
             const rect = buttonsContainer.getBoundingClientRect();
             const btnRect = noBtn.getBoundingClientRect();
             const yesRect = yesBtn.getBoundingClientRect();
-            const maxX = rect.width - btnRect.width - 20;
-            const maxY = rect.height - btnRect.height - 20;
-            
-            let newX, newY;
+            const maxX = Math.max(rect.width - btnRect.width - 20, 10);
+            const maxY = Math.max(rect.height - btnRect.height - 20, 10);
+
+            let newX = 10;
+            let newY = 10;
             let attempts = 0;
-            const maxAttempts = 50;
-            
+            const maxAttempts = 80;
+
             do {
-                newX = Math.random() * maxX + 10;
-                newY = Math.random() * maxY + 10;
+                newX = Math.random() * maxX;
+                newY = Math.random() * maxY;
                 attempts++;
-                
+
                 const noLeft = rect.left + newX;
                 const noRight = noLeft + btnRect.width;
                 const noTop = rect.top + newY;
                 const noBottom = noTop + btnRect.height;
-                
+
                 const yesLeft = yesRect.left;
                 const yesRight = yesRect.right;
                 const yesTop = yesRect.top;
                 const yesBottom = yesRect.bottom;
-                
-                const padding = 30;
-                
+
+                const padding = 26;
+
                 const overlaps = !(
                     noRight + padding < yesLeft ||
                     noLeft - padding > yesRight ||
                     noBottom + padding < yesTop ||
                     noTop - padding > yesBottom
                 );
-                
+
                 if (!overlaps || attempts >= maxAttempts) {
                     break;
                 }
             } while (true);
-            
+
             noBtn.style.position = 'absolute';
-            noBtn.style.left = newX + 'px';
-            noBtn.style.top = newY + 'px';
-            
-            createSparkle(btnRect.left + btnRect.width/2, btnRect.top + btnRect.height/2);
-            
-            noClickCount++;
-            const newScale = Math.max(0.3, 1 - (noClickCount * 0.1));
+            noBtn.style.left = `${newX}px`;
+            noBtn.style.top = `${newY}px`;
+            noBtn.style.transform = 'scale(1)';
+
+            createSparkle(btnRect.left + btnRect.width / 2, btnRect.top + btnRect.height / 2);
+
+            noClickCount += 1;
+            const newScale = Math.max(0.3, 1 - (noClickCount * 0.08));
             noBtn.style.transform = `scale(${newScale})`;
         }
 
         function initNoButton() {
             const isMobileView = window.innerWidth <= 768;
-            if (isMobileView) {
-                noBtn.style.position = 'static';
-                noBtn.style.left = 'auto';
-                noBtn.style.top = 'auto';
-                noBtn.style.transform = 'scale(1)';
-                noClickCount = 0;
-                return;
-            }
 
             noBtn.style.position = 'absolute';
-            noBtn.style.left = '70%';
-            noBtn.style.top = '50%';
+            noBtn.style.left = isMobileView ? '52%' : '70%';
+            noBtn.style.top = isMobileView ? '70%' : '50%';
             noBtn.style.transform = 'translate(-50%, -50%) scale(1)';
             noClickCount = 0;
         }

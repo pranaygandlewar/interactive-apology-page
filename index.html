@@ -256,7 +256,12 @@
             100% {
                 opacity: 0;
                 transform: scale(0);
-            }
+            }        
+        }
+        .footer{
+            align-items: flex-end;
+            align-self: right;
+            align-content: end;
         }
     </style>
 </head>
@@ -269,15 +274,16 @@
     <div class="bg-heart" style="top: 20%; left: 50%; animation-delay: 8s;">💝</div>
 
     <div class="container">
-        <div id="mainText">I'm really sorry ❤️<br>Please forgive me 🥺</div>
+        <div id="mainText">I'm really sorry Divya ❤️<br>Please forgive me 🥺</div>
         <div class="buttons">
-            <button id="yesBtn">Okay baby, I forgive you 💖</button>
+            <button id="yesBtn">Okay Pannu, I forgive you 💖</button>
             <button id="noBtn">No, I'm still angry 😠</button>
         </div>
         <div id="clickCount"></div>
         <div id="emojiContainer" class="hidden"></div>
+        <footer class="footer"><small><u><i>-PRANAY</i></u></small></footer>
     </div>
-
+    
     <script>
         const mainText = document.getElementById('mainText');
         const yesBtn = document.getElementById('yesBtn');
@@ -446,7 +452,7 @@
             mainText.innerHTML = "Yay! You forgave me! 😍💖🥳";
             emojiContainer.innerHTML = "😊❤️💃🎉✨🥰💕🌟🎊💖🌹😘";
             emojiContainer.classList.remove('hidden');
-            clickCount.innerHTML = "I LOVE YOU SO MUCH! ❤️❤️❤️";
+            clickCount.innerHTML = "LOVE YOU YRR ! ❤️❤️❤️";
             buttonsContainer.style.display = 'none';
 
             for (let i = 0; i < 30; i++) {
